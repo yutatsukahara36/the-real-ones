@@ -2,7 +2,7 @@
 
 ## Description
 
-The Real Ones is a private web app built for a specific friend group of 8. Each person fills out an anonymous 41-question survey covering self-reflection, honest peer assessments, and group dynamics. Once all 8 have submitted, an admin triggers an AI analysis pipeline powered by Claude Sonnet that processes all 328 responses and generates an interactive dashboard. The dashboard reveals relationship heatmaps, role maps (giver vs taker, challenger vs comforter), trust scores, self-vs-group perception gaps, blind spots, and personal honor titles — giving the group an honest, data-driven mirror of who they are to each other.
+The Real Ones is a web app built for a specific friend group of 8. Each person fills out an anonymous 41-question survey covering self-reflection, honest peer assessments, and group dynamics. Once all have submitted, AI analysis pipeline powered by Claude Sonnet is generated that processes all 328 responses and generates an interactive dashboard. The dashboard reveals relationship heatmaps, role maps (giver vs taker, challenger vs comforter), trust scores, self-vs-group perception gaps, blind spots, and personal honor titles — giving the group an honest, data-driven mirror of who they are to each other.
 
 Built with Next.js 16, TypeScript, Tailwind CSS, SQLite, Recharts, and the Anthropic Claude API. Deployed on Fly.io with a persistent SQLite volume.
 
