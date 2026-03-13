@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# The Real Ones
 
-## Getting Started
+## Description
 
-First, run the development server:
+The Real Ones is a private web app built for a specific friend group of 8. Each person fills out an anonymous 41-question survey covering self-reflection, honest peer assessments, and group dynamics. Once all 8 have submitted, an admin triggers an AI analysis pipeline powered by Claude Sonnet that processes all 328 responses and generates an interactive dashboard. The dashboard reveals relationship heatmaps, role maps (giver vs taker, challenger vs comforter), trust scores, self-vs-group perception gaps, blind spots, and personal honor titles — giving the group an honest, data-driven mirror of who they are to each other.
+
+Built with Next.js 16, TypeScript, Tailwind CSS, SQLite, Recharts, and the Anthropic Claude API. Deployed on Fly.io with a persistent SQLite volume.
+
+**Live:** https://the-real-ones.fly.dev
+
+---
+
+## How to Run
+
+### 1. Clone the repo
+
+```bash
+git clone https://github.com/yutatsukahara36/the-real-ones.git
+cd the-real-ones
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Set up environment variables
+
+```bash
+cp .env.example .env.local
+```
+
+Open `.env.local` and add your Anthropic API key:
+
+```
+ANTHROPIC_API_KEY=sk-ant-...
+```
+
+### 4. Run the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000). The SQLite database (`survey.db`) is created automatically on first request.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 5. Using the app
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Each of the 8 friends selects their name on the landing page and completes the 41-question survey
+- Once all 8 have submitted, go to `/admin` and click **Generate Analysis** to trigger the Claude AI pipeline
+- View the group dashboard at `/dashboard` and individual summaries at `/dashboard/{name}`
 
-## Learn More
+### Running with Docker
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+docker build -t the-real-ones .
+docker run -p 3000:3000 -e ANTHROPIC_API_KEY=sk-ant-... -v $(pwd)/data:/data the-real-ones
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Deploying to Fly.io
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+fly launch
+fly volumes create survey_data --region sjc --size 1 --yes
+fly secrets set ANTHROPIC_API_KEY=sk-ant-...
+fly deploy
+```
